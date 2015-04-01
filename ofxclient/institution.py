@@ -108,12 +108,19 @@ class Institution(object):
         ofx = BeautifulStoneSoup(res)
 
         sonrs = ofx.find('sonrs')
-        code = int(sonrs.find('code').contents[0].strip())
 
-        try:
-            status = sonrs.find('message').contents[0].strip()
-        except Exception:
-            status = ''
+        status = ''
+        code = 1
+
+        if sonrs:
+            code = int(sonrs.find('code').contents[0].strip())
+
+            try:
+                status = sonrs.find('message').contents[0].strip()
+            except Exception:
+                status = ''
+
+
 
         if code == 0:
             return 1
